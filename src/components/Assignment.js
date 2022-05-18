@@ -7,6 +7,8 @@ import Button from '@mui/material/Button';
 import Radio from '@mui/material/Radio';
 import {DataGrid} from '@mui/x-data-grid';
 import {SERVER_URL} from '../constants.js'
+import Grid from '@mui/material/Grid';
+import AddAssignment from './AddAssignment';
 
 // NOTE:  for OAuth security, http request must have
 //   credentials: 'include' 
@@ -49,6 +51,37 @@ class Assignment extends React.Component {
     this.setState({selected: event.target.value});
   }
   
+  // Add Assignment
+  addAssignment = (assignment) => {
+    const token = Cookies.get('XSRF-TOKEN');
+ 
+    fetch(`${SERVER_URL}/course/${assignment.course_id}/assignment`,
+      { 
+        method: 'POST', 
+        headers: { 'Content-Type': 'application/json',
+                   'X-XSRF-TOKEN': token  }, 
+        body: JSON.stringify(assignment)
+      })
+    .then(res => {
+        if (res.ok) {
+          toast.success("Assignment successfully added", {
+              position: toast.POSITION.BOTTOM_LEFT
+          });
+          this.fetchAssignments();
+        } else {
+          toast.error("Error when adding", {
+              position: toast.POSITION.BOTTOM_LEFT
+          });
+          console.error('Post http status =' + res.status);
+        }})
+    .catch(err => {
+      toast.error("Error when adding", {
+            position: toast.POSITION.BOTTOM_LEFT
+        });
+        console.error(err);
+    })
+  }
+  
   render() {
      const columns = [
       {
@@ -83,6 +116,11 @@ class Assignment extends React.Component {
                     variant="outlined" color="primary" disabled={this.state.assignments.length===0}  style={{margin: 10}}>
               Grade
             </Button>
+			<Grid container>
+              <Grid item>
+                  <AddAssignment addAssignment={this.addAssignment}  />
+              </Grid>
+            </Grid>
             <ToastContainer autoClose={1500} /> 
           </div>
       )
