@@ -43,7 +43,7 @@ class AddAssignment extends Component {
     render()  { 
       return (
           <div>
-            <Button variant="outlined" color="primary" style={{margin: 10}} onClick={this.handleClickOpen}>
+            <Button variant="outlined" id="addAssignment" color="primary" style={{margin: 10}} onClick={this.handleClickOpen}>
               Add Assignment
             </Button>
             <Dialog open={this.state.open} onClose={this.handleClose}>
@@ -54,8 +54,8 @@ class AddAssignment extends Component {
 				  <TextField autoFocus fullWidth label="Course Id" name="course_id" onChange={this.handleChangeCourseId}  />				  
                 </DialogContent>
                 <DialogActions>
-                  <Button color="secondary" onClick={this.handleClose}>Cancel</Button>
-                  <Button color="primary" onClick={this.handleAdd}>Add</Button>
+                  <Button id="Cancel" color="secondary" onClick={this.handleClose}>Cancel</Button>
+                  <Button id="Add" color="primary" onClick={this.handleAdd}>Add</Button>
                 </DialogActions>
               </Dialog>      
           </div>
